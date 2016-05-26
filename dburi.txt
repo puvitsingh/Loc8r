@@ -1,0 +1,1 @@
+mongodb://puvit:76Ytrg5h@ds051665.mlab.com:51665/loc8r-dev

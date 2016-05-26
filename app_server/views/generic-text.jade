@@ -1,16 +1,10 @@
 extends layout
 
 block content
-  .row.page-header
-    .col-md-6.col-sm-12
-      h1= title
-  .row
-    .col-md-6.col-sm-12
-      p
-      | Loc8r was created to help people find places to sit etc...
-      |  <br /> <br />
-      | Lorem ipsum dolor sit amet, ijfdidjf doijdijf . jiofjj
-      oiofdkofdkofdkodk. Lorem ipsum dolor sit amet, ijfdidjf doijdijf. jiofjj. Lorem ipsum dolor sit amet, ijfdidjf doijdijf. jiofjj Lorem ipsum dolor sit amet, 
-      jfdidjf doijdijf . jiofjjLorem ipsum dolor sit amet, ijfdidjf doijdijf . jiofjj. something smells in here.. 
-      |  <br /> <br />
-      |  <br /> <br />
+  #banner.page-header
+    .row
+      .col-md-6.col-sm-12
+        h1= title
+    .row
+      .col-md-6.col-sm-12
+        p !{(content).replace(/\n/g, '<br/>')}

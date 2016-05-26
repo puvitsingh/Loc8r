@@ -1,50 +1,43 @@
 extends layout
 
+include _includes/sharedHTMLfunctions
+
 block content
-  .row.page-header
-    .col-lg-12
-      h1 HotCups
+  .row.page-header: .col-lg-12
+      h1=pageHeader.title
   .row
     .col-xs-12.col-md-9
       .row
         .col-xs-12.col-sm-6
           p.rating
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star-empty
-            span.glyphicon.glyphicon-star-empty
-          
-          p 125 Cabot Street, Beverly, MA 01915
-          .panel.panel-primary
-            .panel-heading
-              h2.panel-title Opening hours
-            .panel-body
-              p Monday - Friday: 7:00 am to 7:00 pm
-              p Saturday: 8:00 am to 9:00 pm
-              p Sunday: 8:00 am to 2:00 pm                  
-          .panel.panel-primary
-            .panel-heading
-              h2.panel-title Facilities
-            .panel-body
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Hot Drinks
-              | &nbsp;
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Food
-              | &nbsp;
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Premium wifi
-              | &nbsp;
+            +outputRating(location.rating)
+          p= location.address
+            .panel.panel-primary
+              .panel-heading
+                h2.panel-title Opening hours
+              .panel-body
+                each time in location.openingTimes
+                  p
+                    | #{time.days} :
+                    if time.closed
+                      |  Closed
+                    else
+                      |  #{time.opening} - #{time.closing}
+            .panel.panel-primary
+              .panel-heading
+                h2.panel-title Facilities
+              .panel-body
+                each facility in location.facilities
+                  span.label.label-warning
+                    span.glyphicon.glyphicon-ok
+                    | &nbsp;#{facility}
+                  | &nbsp;
         .col-xs-12.col-sm-6.location-map
           .panel.panel-primary
             .panel-heading
               h2.panel-title Location map
             .panel-body
-              img.img-responsive.img-rounded(src="http://maps.googleapis.com/maps/api/staticmap?center=42.5514236,-70.8817679&zoom=17&size=400x350&sensor=true&markers=42.5514236,-70.8817679&scale=2")
+              img.img-responsive.img-rounded(src="http://maps.googleapis.com/maps/api/staticmap?center=#{location.coords.lat},#{location.coords.lng}&zoom=17&size=400x350&sensor=true&markers=#{location.coords.lat},#{location.coords.lng}&scale=2")
       .row
         .col-xs-12
           .panel.panel-primary.review-panel
@@ -52,18 +45,16 @@ block content
               a.btn.btn-default.pull-right(href="/location/review/new") Add review
               h2.panel-title Customer reviews
             .panel-body.review-container
-              .row
-                .review
-                  .well.well-sm.review-header
-                    span.rating
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star-empty
-                      span.glyphicon.glyphicon-star-empty
-                      span.glyphicon.glyphicon-star-empty
-                    span.reviewAuthor Clarlie Chaplin
-                    small.reviewTimestamp 16 June 2014
+              each review in location.reviews
+                .row
+                  .review
+                    .well.well-sm.review-header
+                      span.rating
+                        +outputRating(review.rating)
+                      span.reviewAuthor #{review.author}
+                      small.reviewTimestamp #{review.timestamp}
                     .col-xs-12
-                      p it was okay
+                      p !{(review.reviewText).replace(/\n/g, '<<br/>')}
     .col-xs-12.col-md-3
-      p.lead this place is on this site because fjijfim difjidfj iajidj.  idjidj aiijdij idjidjd dijdij
+      p.lead #{location.name} #{sidebar.context}
+      p= sidebar.callToAction
