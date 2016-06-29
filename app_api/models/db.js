@@ -1,9 +1,9 @@
 var mongoose = require( 'mongoose' );
 var gracefulShutdown;
 var dbURI = 'mongodb://localhost/Loc8r';
-if (process.env.NODE_ENV === 'production') {
-	dbURI = process.env.MONGOLAB_URI;
-}
+//if (process.env.NODE_ENV === 'production') {
+//	dbURI = process.env.MONGOLAB_URI;
+//}
 mongoose.connect(dbURI);
 
 var readLine = require ("readline");
@@ -19,7 +19,7 @@ if (process.platform === "win32"){
 
 mongoose.connection.on('connected', function () {
 	console.log('NODE_ENV: ' + process.env.NODE_ENV);
-	console.log('Mongoose Connected to ' + dbURI);
+	console.log('Mongoose Success: Connected to ' + dbURI);
 });
 
 mongoose.connection.on('error', function (err) {
